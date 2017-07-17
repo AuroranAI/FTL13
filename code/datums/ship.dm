@@ -14,6 +14,9 @@
 	var/list/ship_components = list()
 	var/salvage_map = "placeholder.dmm"
 
+	var/ship_boarders = null // mob path used in carrier_weapon; null for default shitborgs, a specific mob path for something else
+	var/num_boarders = null // amount of npc boarders/shot to create, default five
+
 	//Boarding vars
 	var/boarding_map = null	//write here the name of the file and exstension - like: "example.dmm"
 	var/boarding_chance = null	//chance for this ship not blowup into the pieces
