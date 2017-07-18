@@ -14,8 +14,8 @@
 	var/list/ship_components = list()
 	var/salvage_map = "placeholder.dmm"
 
-	var/ship_boarders = null // mob path used in carrier_weapon; null for default shitborgs, a specific mob path for something else
-	var/num_boarders = null // amount of npc boarders/shot to create, default five
+	var/list/boarding_mobs = list(/mob/living/simple_animal/hostile/droid) // mob paths used in carrier_weapon, override with a specific mob path for something else
+	var/num_boarders = 5 // amount of npc boarders/shot to create
 
 	//Boarding vars
 	var/boarding_map = null	//write here the name of the file and exstension - like: "example.dmm"
@@ -100,6 +100,8 @@ GLOBAL_VAR(next_ship_id)
 		C.x_loc = text2num(coords[1])
 		C.y_loc = text2num(coords[2])
 		C.ship = src
+		if(C.attack_data)
+			C.attack_data.ship = src
 	combat_ai = new combat_ai
 	operations_ai = new operations_ai
 	mission_ai = new mission_ai
