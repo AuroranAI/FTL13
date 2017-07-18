@@ -101,6 +101,7 @@ GLOBAL_VAR(next_ship_id)
 		C.x_loc = text2num(coords[1])
 		C.y_loc = text2num(coords[2])
 		C.ship = src
+		C.do_After()
 	combat_ai = new combat_ai
 	operations_ai = new operations_ai
 	mission_ai = new mission_ai
@@ -199,6 +200,9 @@ GLOBAL_VAR(next_ship_id)
 
 /datum/component/New()
 	if(attack_data) attack_data = new attack_data
+
+/datum/component/proc/do_After() // allows a component to get data from a ship
+	return
 
 /datum/component/cockpit
 	name = "bridge"
@@ -430,11 +434,7 @@ GLOBAL_VAR(next_ship_id)
 
 	attack_data = /datum/ship_attack/carrier_weapon
 
-/datum/component/weapon/carrier_weapon/New()
-	..()
-	addtimer(CALLBACK(src, .proc/assign_values), 10) // wait for the ship variable to get set before we try to access it
-
-/datum/component/weapon/carrier_weapon/proc/assign_values()
+/datum/component/weapon/carrier_weapon/do_After()
 	var/datum/ship_attack/carrier_weapon/C = attack_data
 	if(ship.ship_boarders)
 		C.boarding_mob = ship.ship_boarders
