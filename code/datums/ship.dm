@@ -94,12 +94,6 @@ GLOBAL_VAR(next_ship_id)
 	for(var/i in init_components)
 		var/datum/component/component = SSship.cname2component(init_components[i])
 		var/datum/component/C = new component.type
-		if(istype(C, /datum/component/weapon/carrier_weapon) && (ship_boarders || num_boarders)) // we have a carrier weapon and something to change on it
-			var/datum/ship_attack/carrier_weapon/A = C.attack_data
-			if(ship_boarders)
-				A.boarding_mob = ship_boarders
-			if(num_boarders)
-				A.amount = num_boarders
 		components += C
 
 		var/list/coords = splittext(i,",")
@@ -435,6 +429,14 @@ GLOBAL_VAR(next_ship_id)
 	fire_rate = 200
 
 	attack_data = /datum/ship_attack/carrier_weapon
+
+/datum/component/weapon/carrier_weapon/New()
+	var/datum/ship_attack/carrier_weapon/C = new attack_data
+	if(ship.ship_boarders)
+		C.boarding_mob = ship.ship_boarders
+	if(ship.num_boarders)
+		C.amount = ship.num_boarders
+	attack_data = C
 
 // AI MODULES
 
