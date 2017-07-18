@@ -431,12 +431,17 @@ GLOBAL_VAR(next_ship_id)
 	attack_data = /datum/ship_attack/carrier_weapon
 
 /datum/component/weapon/carrier_weapon/New()
-	var/datum/ship_attack/carrier_weapon/C = new attack_data
+	..()
+	addtimer(CALLBACK(src, .proc/assign_values), 10) // wait for the ship variable to get set before we try to access it
+
+/datum/component/weapon/carrier_weapon/proc/assign_values()
+	var/datum/ship_attack/carrier_weapon/C = attack_data
 	if(ship.ship_boarders)
 		C.boarding_mob = ship.ship_boarders
 	if(ship.num_boarders)
 		C.amount = ship.num_boarders
 	attack_data = C
+
 
 // AI MODULES
 
